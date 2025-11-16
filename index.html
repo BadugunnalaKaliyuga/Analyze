@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Analyze</title>
+</head>
+<body>
+  <h1>Analyze</h1>
+  <form id="github-user-analyze">
+    <input type="text" id="username" placeholder="GitHub Username">
+    <button type="submit">Analyze</button>
+  </form>
+
+  <p id="github-created-at"></p>
+
+  <script>
+    document.querySelector("#github-user-analyze").addEventListener("submit", async (e)=>{
+      e.preventDefault();
+      const name = document.querySelector("#username").value;
+      const res = await fetch(`https://api.github.com/users/${name}`);
+      const data = await res.json();
+
+      if(data.created_at){
+        document.querySelector("#github-created-at").textContent =
+          data.created_at.slice(0,10);
+      } else {
+        document.querySelector("#github-created-at").textContent = "User not found";
+      }
+    });
+  </script>
+</body>
+</html>
